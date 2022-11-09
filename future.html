@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            height: 100%;
+            font-family:   'Lato', sans-serif;
+        }
+        .input-block{
+            width: 22%;
+            margin:50px auto;
+        }
+        .item-input{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .label-text{
+            color:#00ff00;
+            font-size: 20px;
+        }
+        .my-input{
+            width: 60%;
+            height: 30px;
+            background-color: black;
+            color:#00ff00;
+            font-size: 20px;
+            border:1px solid #00ff00;
+            border-radius: 5px;
+        }
+        .my-btn{
+            border-radius: 5px;
+            height: 40px;
+            width: 100%;
+            background-color: #00ff00;
+            font-size: 20px;
+            cursor: pointer;
+            color:black;
+        }
+        input[type=number]:focus {
+           border-radius: 5px;
+        }
+        .value{
+            width: 60%;
+            margin: 0 auto;
+            display: none;
+            text-align: center;
+            border:1px solid #00ff00;
+        }
+        .expect-text{
+            color:#00ff00;
+            font-size: 50px;
+        }
+        svg path,
+        svg rect{
+        fill: #00ff00;
+        }
+        .loader{
+            text-align: center;
+            display:none;
+        }
+        .tabs{
+            display: flex;
+            /* flex-direction: column; */
+        }
+        .tab-item{
+            width: 200px;
+        }
+        .tab-item button{
+            width: 100%;
+            background-color: black;
+            border:1px solid #00ff00;
+            color:#00ff00;
+            cursor: pointer;
+            padding:20px;
+            font-size: 14px;
+        }
+        .tab-content{
+            height: 90vh;
+            border:1px solid #00ff00;
+        }
+        .tab-item.active button{
+            background-color: #00ff00;
+            color:#000;
+        }
+        #bank{
+            display: none;
+        }
+        h1{
+            color: #00ff00;text-align: center;
+        }
+    </style>
+</head>
+<body style="background-color: #000;">
+    <div class="tabs">
+        <div id="tab-0" class="tab-item active" onclick="changeTab(0)">
+            <button>Lãi xuất tiền ảo</button>
+        </div>
+        <div id="tab-1" class="tab-item" onclick="changeTab(1)">
+            <button>Lãi xuất ngân hàng</button>
+        </div>
+    </div>
+  <div class="tab-content">
+    <div class="crypto" id="crypto">
+       
+        <div class="input-block">
+            <h1>CRYPTO</h1>
+            <div class="item-input">
+                <label class="label-text" for="defaultValue">Số tiền bắt đầu:</label>
+                <input type="number" class="my-input" id="defaultValue">
+            </div>
+            <div class="item-input">
+                <label class="label-text" for="month">Số tháng kì vọng:</label>
+                <input type="number" class="my-input" id="month">
+            </div>
+            <div class="item-input">
+                <label class="label-text" for="buyPrice">Giá mua vào:</label>
+                <input type="number" class="my-input" id="buyPrice">
+            </div>
+            <div class="item-input">
+                <label class="label-text" for="sellPrice">Giá bán ra:</label>
+                <input type="number" class="my-input" id="sellPrice">
+            </div>
+            <button class="my-btn" onclick="calculate()">Tính Toán</button>
+    
+        </div>
+        <div id="loader-c" class="loader loader--style2" title="1">
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px" y="0px" width="70px" height="70px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                xml:space="preserve">
+                <path fill="#000"
+                    d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25"
+                        to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        <div class="value" id="value-c">
+            <p id="expectUSD" class="expect-text"></p>
+            <p id="expectVND" class="expect-text"></p>
+            <p id="expectCoin" class="expect-text"></p>
+    
+        </div>
+    </div>
+    <div class="bank" id="bank">
+            <div class="input-block">
+                <h1 >BANK</h1>
+                <div class="item-input">
+                    <label class="label-text" for="defaultValueB">Số tiền tiết kiệm:</label>
+                    <input type="number" class="my-input" id="defaultValueB">
+                </div>
+                <div class="item-input">
+                    <label class="label-text" for="monthB">Số tháng tiết kiệm:</label>
+                    <input type="number" class="my-input" id="monthB">
+                </div>
+                <div class="item-input">
+                    <label class="label-text" for="interestRate">Lãi suất thời giá:</label>
+                    <input type="number" class="my-input" id="interestRate">
+                </div>
+                <button class="my-btn" onclick="calculateBank()">Tính Toán</button>
+            
+            </div>
+            <div id="loader-b" class="loader loader--style2" title="1">
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px" y="0px" width="70px" height="70px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                    xml:space="preserve">
+                    <path fill="#000"
+                        d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25"
+                            dur="0.6s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+            <div class="value" id="value-b">
+                <p id="expectUSDB" class="expect-text"></p>
+                <p id="expectVNDB" class="expect-text"></p>
+                <p id="expectCoinB" class="expect-text"></p>
+            
+            </div>
+    </div>
+  </div>
+    <script>
+        function calculate(){
+            
+            let defaultValue = document.getElementById("defaultValue").value;
+            let month = document.getElementById("month").value;
+            let buyPrice = document.getElementById("buyPrice").value;
+            let sellPrice = document.getElementById("sellPrice").value;
+            let expectValue = 0;
+            let expectCoin = 0;
+            if(defaultValue != 0 && month != 0 && buyPrice != 0 && sellPrice != 0)
+            {
+                document.getElementById("loader-c").style.display = "block";
+                document.getElementById("loader-c").style.textAlign = "center";
+                document.getElementById("value-c").style.display = "none";
+                for (let i = 1; i <= month; i++) {
+                    if (expectValue == 0) expectValue = defaultValue;
+                    let pre = expectValue / buyPrice;
+                    let aft = pre * sellPrice;
+                    expectValue = aft;
+                    expectCoin += pre;
+                }
+                setTimeout(() => {
+                    document.getElementById("loader-c").style.display = "none";
+                    document.getElementById("value-c").style.display = "block";
+                    expectValue = Math.round(expectValue);
+                    let expectVND = Math.round(expectValue * 25400);
+                    document.getElementById("expectUSD").innerHTML = `USD kì vọng: ${expectValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} USD`;
+                    document.getElementById("expectVND").innerHTML = `VNĐ kì vọng: ${expectVND.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ`;
+                    document.getElementById("expectCoin").innerHTML = `ETH kì vọng: ${Math.round(expectCoin)}`;
+                }, 1000);
+            }else{
+                alert("Vui lòng nhập đầy đủ thông tin!");
+            }
+            
+            
+           
+
+        }
+        function changeTab(index){
+
+            document.getElementsByClassName("tab-item active")[0].classList.remove("active");
+            document.getElementById(`tab-${index}`).classList.add("active");
+            if(index == 0){
+                document.getElementById("bank").style.display = "none"
+                document.getElementById("crypto").style.display = "block"
+
+            }else{
+                document.getElementById("crypto").style.display = "none"
+                document.getElementById("bank").style.display = "block"
+
+            }
+        }
+        function calculateBank() {
+
+                let defaultValueB = document.getElementById("defaultValueB").value;
+                let monthB = document.getElementById("monthB").value;
+                let interestRate = document.getElementById("interestRate").value;
+               
+                let expectValue = 0;
+                let expectCoin = 0;
+                if (defaultValueB != 0 && monthB != 0 && interestRate != 0 ) {
+                    document.getElementById("loader-b").style.display = "block";
+                    document.getElementById("loader-b").style.textAlign = "center";
+                    document.getElementById("value-b").style.display = "none";
+                    expectValue = defaultValueB * Math.pow((1 + interestRate / 100), monthB);
+                    setTimeout(() => {
+                        document.getElementById("loader-b").style.display = "none";
+                        document.getElementById("value-b").style.display = "block";
+                        expectValue = Math.round(expectValue);
+                        let expectVND = Math.round(expectValue * 25400);
+                        document.getElementById("expectUSDB").innerHTML = `USD sau tiết kiệm: ${expectValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} USD`;
+                        document.getElementById("expectVNDB").innerHTML = `VNĐ sau tiết kiệm: ${expectVND.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ`;
+                    }, 1000);
+                } else {
+                    alert("Vui lòng nhập đầy đủ thông tin!");
+                }
+
+
+
+
+            }
+    </script>
+</body>
+</html>
