@@ -11,5 +11,5 @@
         Bank tab(2)
     </li>
 </ul>
-(1)<img src="./preview_images/crypto.png" style="height:200px;width:200px"/>
-(2)<img src="./preview_images/bank.png" style="height:200px;width:200px"/>
+(1)<img src="./preview_images/crypto.png" />
+(2)<img src="./preview_images/bank.png" />
